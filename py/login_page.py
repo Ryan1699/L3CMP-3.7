@@ -1,10 +1,13 @@
 import tkinter as tk
 from tkinter import messagebox
 
-class login_page(tk.Frame):
-    def __init__(self, master=None):
-        super().__init__(master)
-        self.pack()
+from value_checker import Valuechecker
+
+class LoginPage(tk.Frame):
+    def __init__(self, parent=None, controller=None):
+        super().__init__(parent)
+
+        self.controller = controller
         self.create_widgets()
 
     def create_widgets(self):
@@ -32,12 +35,38 @@ class login_page(tk.Frame):
         self.input_email = tk.Entry(self, font=("Arial", 11))
         self.input_email.pack(side="top")
 
-        self.button_login = tk.Button(self, text="Log in", font=("Arial", 12))
+        self.button_login = tk.Button(self, text="Log in", font=("Arial", 12), command=self.login_onclick)
         self.button_login.pack(side="top")
+
+    def login_onclick(self):
+        firstname = self.input_firstname.get()
+        lastname = self.input_lastname.get()
+        number = self.input_number.get()
+        email = self.input_email.get()
+
+        if not Valuechecker.name_check(firstname):
+            messagebox.showerror("Error", "Invalid first name")
+            return
+
+        if not Valuechecker.name_check(lastname):
+            messagebox.showerror("Error", "Invalid last name")
+            return
+
+        if not Valuechecker.number_check(number):
+            messagebox.showerror("Error", "Invalid phone number")
+            return
+
+        if not Valuechecker.email_check(email):
+            messagebox.showerror("Error", "Invalid email address")
+            return
+
+        messagebox.showinfo("Success", "Login successful")
+        self.controller.show_frame("BookingPage")
+
 
 if __name__ == "__main__":
     root = tk.Tk()
     root.title("test")
     root.geometry("400x300")
-    app = login_page(master=root)
+    app = LoginPage(master=root)
     app.mainloop()
