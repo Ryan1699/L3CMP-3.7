@@ -1,7 +1,7 @@
 import tkinter as tk
 from tkinter import messagebox
 
-from value_checker import Valuechecker
+from value_checkerv1 import Valuechecker
 
 class LoginPage(tk.Frame):
     def __init__(self, parent=None, controller=None):

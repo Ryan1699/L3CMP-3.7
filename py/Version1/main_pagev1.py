@@ -1,7 +1,7 @@
 import tkinter as tk
 from tkinter import messagebox
-from login_page import LoginPage
-from booking_page import BookingPage
+from login_pagev1 import LoginPage
+from booking_pagev1 import BookingPage
 
 
 class MainPage(tk.Frame):

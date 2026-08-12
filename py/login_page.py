@@ -44,7 +44,7 @@ class LoginPage(tk.Frame):
         number = self.input_number.get()
         email = self.input_email.get()
 
-        if not Valuechecker.name_check(firstname):
+        '''if not Valuechecker.name_check(firstname):
             messagebox.showerror("Error", "Invalid first name")
             return
 
@@ -58,7 +58,7 @@ class LoginPage(tk.Frame):
 
         if not Valuechecker.email_check(email):
             messagebox.showerror("Error", "Invalid email address")
-            return
+            return'''
 
         messagebox.showinfo("Success", "Login successful")
         self.controller.show_frame("BookingPage")
