@@ -2,10 +2,10 @@ import tkinter as tk
 from tkinter import messagebox
 
 class BookingPage(tk.Frame):
-    def __init__(self, master=None):
-        super().__init__(master)
-        self.pack()
+    def __init__(self, parent=None, controller=None):
+        super().__init__(parent)
 
+        self.controller = controller
         self.trip_type = tk.StringVar(value=" ")
         self.route = tk.StringVar(value=" ")
         self.bunk_count = tk.IntVar(value=0)
