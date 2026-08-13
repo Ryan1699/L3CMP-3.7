@@ -25,6 +25,7 @@ class LoginPage(tk.Frame):
         self.input_lastname = tk.Entry(self, font=("Arial", 11))
         self.input_lastname.pack(side="top")
 
+
         self.label_number = tk.Label(self, text="Phone Number:", font=("Arial", 12))
         self.label_number.pack(side="top")
         self.input_number = tk.Entry(self, font=("Arial", 11))

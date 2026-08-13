@@ -10,6 +10,7 @@ class BookingPage(tk.Frame):
         self.route = tk.StringVar(value=" ")
         self.bunk_count = tk.IntVar(value=0)
         self.receiling_count = tk.IntVar(value=0)
+        self.total_price = tk.DoubleVar(value=0.0)
 
         self.create_widgets()
 
@@ -43,16 +44,24 @@ class BookingPage(tk.Frame):
 
         self.bunk_label = tk.Label(self, text="Bunk Seats:", font=("Arial", 12))
         self.bunk_label.pack(side="top")
-        self.bunk_spinbox= tk.Spinbox(self, from_=0, to=20, textvariable=self.bunk_count, font=("Arial", 11))
+        self.bunk_spinbox= tk.Spinbox(self, from_=0, to=20, textvariable=self.bunk_count, font=("Arial", 11), command=self.update_total_price)
         self.bunk_spinbox.pack(side="top")
 
         self.receiling_label = tk.Label(self, text="Receiling Seats:", font=("Arial", 12))
         self.receiling_label.pack(side="top")
-        self.receiling_spinbox= tk.Spinbox(self, from_=0, to=20, textvariable=self.receiling_count, font=("Arial", 11))
+        self.receiling_spinbox= tk.Spinbox(self, from_=0, to=20, textvariable=self.receiling_count, font=("Arial", 11), command=self.update_total_price)
         self.receiling_spinbox.pack(side="top")
+
+        self.price_label = tk.Label(self, textvariable=self.total_price, font=("Arial", 12))
+        self.price_label.pack(side="top")
 
         self.button_book = tk.Button(self, text="Book", font=("Arial", 12), command=self.book_onclick)
         self.button_book.pack(side="bottom")
+
+
+    def update_total_price(self):
+        total_price = self.bunk_count.get() *20 + self.receiling_count.get() * 15
+        self.total_price.set(total_price)
 
     def book_onclick(self):
 
