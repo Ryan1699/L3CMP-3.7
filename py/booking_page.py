@@ -65,7 +65,6 @@ class BookingPage(tk.Frame):
 
     def book_onclick(self):
 
-
         if self.trip_type.get().strip() == "":
             messagebox.showerror("Error", "Please select a trip type")
             return
@@ -77,8 +76,11 @@ class BookingPage(tk.Frame):
         if self.bunk_count.get() == 0 and self.receiling_count.get() == 0:
             messagebox.showerror("Error", "Please select at least one seat")
             return
+        confirm = messagebox.askyesno("Confirm Booking", 
+                                      f"Are you sure you want to book the following:\nTrip Type: {self.trip_type.get()}\nRoute: {self.route.get()}\nBunk Seats: {self.bunk_count.get()}\nReceiling Seats: {self.receiling_count.get()}\nTotal Price: ${self.total_price.get():.2f}")
 
-        messagebox.showinfo("Success", f"Booking successful!\nTrip Type: {self.trip_type.get()}\nRoute: {self.route.get()}\nBunk Seats: {self.bunk_count.get()}\nReceiling Seats: {self.receiling_count.get()}")
+        if confirm:
+            messagebox.showinfo("Success", f"Booking successful!\nTrip Type: {self.trip_type.get()}\nRoute: {self.route.get()}\nBunk Seats: {self.bunk_count.get()}\nReceiling Seats: {self.receiling_count.get()}")
 
 
 if __name__ == "__main__":
