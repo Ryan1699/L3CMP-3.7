@@ -11,6 +11,7 @@ class BookingPage(tk.Frame):
         self.bunk_count = tk.IntVar(value=0)
         self.receiling_count = tk.IntVar(value=0)
         self.total_price = tk.DoubleVar(value=0.0)
+        self.gst_price = tk.DoubleVar(value=0.0)
 
         self.create_widgets()
 
@@ -52,16 +53,27 @@ class BookingPage(tk.Frame):
         self.receiling_spinbox= tk.Spinbox(self, from_=0, to=20, textvariable=self.receiling_count, font=("Arial", 11), command=self.update_total_price)
         self.receiling_spinbox.pack(side="top")
 
+        self.total_price_label = tk.Label(self, text="Total Price:", font=("Arial", 12))
+        self.total_price_label.pack(side="top")
         self.price_label = tk.Label(self, textvariable=self.total_price, font=("Arial", 12))
         self.price_label.pack(side="top")
+
+        self.gst_label = tk.Label(self, text="GST:", font=("Arial", 12))
+        self.gst_label.pack(side="top")
+        self.gst_label = tk.Label(self, textvariable=self.gst_price, font=("Arial", 10))
+        self.gst_label.pack(side="top")
 
         self.button_book = tk.Button(self, text="Book", font=("Arial", 12), command=self.book_onclick)
         self.button_book.pack(side="bottom")
 
 
     def update_total_price(self):
-        total_price = self.bunk_count.get() *20 + self.receiling_count.get() * 15
+        if self.trip_type.get() == "return":
+            total_price = (self.bunk_count.get() * 20 + self.receiling_count.get() * 15) * 2
+        else:
+            total_price = self.bunk_count.get() * 20 + self.receiling_count.get() * 15
         self.total_price.set(total_price)
+        self.gst_price.set(total_price / 1.15)  # Assuming GST is 7% of the total price
 
     def book_onclick(self):
 
