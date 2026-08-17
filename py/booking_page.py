@@ -49,10 +49,11 @@ class BookingPage(tk.Frame):
         self.seat_type_label.grid(row=7, column=0, sticky="w", padx=12, pady=(8, 0))
 
         #Outbound section
-        self.outbound_section = tk.Frame(self, bd=1, relief="solid")
+        self.outbound_section = tk.LabelFrame(self, bd=1, relief="solid", text="Outbound Trip Seats")
         self.outbound_section.grid(row=8, column=0, sticky="ew", padx=12, pady=(4, 8))
         self.outbound_section.grid_columnconfigure(0, weight=1)
         self.outbound_section.grid_columnconfigure(1, weight=1)
+        self.outbound_section.grid_remove()
 
         self.bunk_label = tk.Label(self.outbound_section, text="Bunk Seats:", font=("Arial", 12))
         self.bunk_label.grid(row=0, column=0, sticky="w", padx=(8, 6), pady=4)
@@ -65,8 +66,8 @@ class BookingPage(tk.Frame):
         self.receiling_spinbox.grid(row=1, column=1, sticky="ew", padx=(0, 8), pady=4)
 
         #Return section
-        self.return_section = tk.Frame(self, bd=1, relief="solid")
-        self.return_section.grid(row=9, column=0, sticky="ew", padx=12, pady=(0, 8))
+        self.return_section = tk.LabelFrame(self, bd=1, relief="solid", text="Return Trip Seats")
+        self.return_section.grid(row=9, column=0, sticky="ew", padx=12, pady=(4, 8))
         self.return_section.grid_columnconfigure(0, weight=1)
         self.return_section.grid_columnconfigure(1, weight=1)
         self.return_section.grid_remove()
@@ -97,13 +98,20 @@ class BookingPage(tk.Frame):
 
 
     def update_seat_ui(self):
-        if self.trip_type.get() == "return":
-            if self.route.get() == "outbound":
-                self.return_section.grid_remove()
-            else:
-                self.return_section.grid(row=9, column=0, sticky="ew", padx=12, pady=(0, 8))
-        elif self.trip_type.get() == "one-way":
-            self.return_section.grid_remove()
+
+            if self.trip_type.get() == "return":
+                self.return_section.grid()
+                self.outbound_section.grid()
+            elif self.trip_type.get() == "one-way":
+                if self.route.get() == "outbound":
+                    self.return_section.grid_remove()
+                    self.outbound_section.grid()
+                elif self.route.get() == "return":
+                    self.outbound_section.grid_remove()
+                    self.return_section.grid()
+                else:
+                    self.outbound_section.grid_remove()
+                    self.return_section.grid_remove()
 
     def update_total_price(self):
         total_price = 0.0
