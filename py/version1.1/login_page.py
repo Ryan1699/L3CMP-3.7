@@ -1,7 +1,7 @@
 import tkinter as tk
 from tkinter import messagebox
 
-from function import Valuechecker
+from value_checker import Valuechecker
 
 class LoginPage(tk.Frame):
     def __init__(self, parent=None, controller=None):
@@ -15,33 +15,27 @@ class LoginPage(tk.Frame):
         self.lable = tk.Label(self, text="Online Ticket Booking System", font=("Arial", 16))
         self.lable.pack(side="top")
 
-            #First Name label
         self.label_firstname = tk.Label(self, text="First Name:", font=("Arial", 12))
         self.label_firstname.pack(side="top")
         self.input_firstname = tk.Entry(self, font=("Arial", 11))
         self.input_firstname.pack(side="top")
 
-
-            #Last Name label
         self.label_lastname = tk.Label(self, text="Last Name:", font=("Arial", 12))
         self.label_lastname.pack(side="top")
         self.input_lastname = tk.Entry(self, font=("Arial", 11))
         self.input_lastname.pack(side="top")
 
-            #Phone Number label
+
         self.label_number = tk.Label(self, text="Phone Number:", font=("Arial", 12))
         self.label_number.pack(side="top")
         self.input_number = tk.Entry(self, font=("Arial", 11))
         self.input_number.pack(side="top")
 
-            #Email Address label
         self.label_email = tk.Label(self, text="Email Address:", font=("Arial", 12))
         self.label_email.pack(side="top")
         self.input_email = tk.Entry(self, font=("Arial", 11))
         self.input_email.pack(side="top")
 
-
-            #Login button
         self.button_login = tk.Button(self, text="Log in", font=("Arial", 12), command=self.login_onclick)
         self.button_login.pack(side="top")
 
@@ -51,26 +45,21 @@ class LoginPage(tk.Frame):
         number = self.input_number.get()
         email = self.input_email.get()
 
-        is_valid_firstname, firstname_error = Valuechecker.name_check(firstname)
-        if not is_valid_firstname:
-            messagebox.showerror("Error", firstname_error)
+        '''if not Valuechecker.name_check(firstname):
+            messagebox.showerror("Error", "Invalid first name")
             return
 
-        is_valid_lastname, lastname_error = Valuechecker.name_check(lastname)
-        if not is_valid_lastname:
-            messagebox.showerror("Error", lastname_error)
+        if not Valuechecker.name_check(lastname):
+            messagebox.showerror("Error", "Invalid last name")
             return
 
-        is_valid_number, number_error = Valuechecker.number_check(number)
-        if not is_valid_number:
-            messagebox.showerror("Error", number_error)
+        if not Valuechecker.number_check(number):
+            messagebox.showerror("Error", "Invalid phone number")
             return
 
-        is_valid_email, email_error = Valuechecker.email_check(email)
-        if not is_valid_email:
-            messagebox.showerror("Error", email_error)
-            return
-
+        if not Valuechecker.email_check(email):
+            messagebox.showerror("Error", "Invalid email address")
+            return'''
 
         messagebox.showinfo("Success", "Login successful")
         self.controller.show_frame("BookingPage")
@@ -80,5 +69,5 @@ if __name__ == "__main__":
     root = tk.Tk()
     root.title("test")
     root.geometry("400x300")
-    app = LoginPage(parent=root)
+    app = LoginPage(master=root)
     app.mainloop()
