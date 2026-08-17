@@ -32,6 +32,6 @@ class MainPage(tk.Frame):
 if __name__ == "__main__":
     root = tk.Tk()
     root.title("BOOKING SYSTEM")
-    root.geometry("900x600")
+    root.geometry("600x800")
     app = MainPage(master=root)
     app.mainloop()
