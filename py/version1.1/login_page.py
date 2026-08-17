@@ -45,21 +45,26 @@ class LoginPage(tk.Frame):
         number = self.input_number.get()
         email = self.input_email.get()
 
-        '''if not Valuechecker.name_check(firstname):
-            messagebox.showerror("Error", "Invalid first name")
+        is_valid_firstname, firstname_error = Valuechecker.name_check(firstname)
+        if not is_valid_firstname:
+            messagebox.showerror("Error", firstname_error)
             return
 
-        if not Valuechecker.name_check(lastname):
-            messagebox.showerror("Error", "Invalid last name")
+        is_valid_lastname, lastname_error = Valuechecker.name_check(lastname)
+        if not is_valid_lastname:
+            messagebox.showerror("Error", lastname_error)
             return
 
-        if not Valuechecker.number_check(number):
-            messagebox.showerror("Error", "Invalid phone number")
+        is_valid_number, number_error = Valuechecker.number_check(number)
+        if not is_valid_number:
+            messagebox.showerror("Error", number_error)
             return
 
-        if not Valuechecker.email_check(email):
-            messagebox.showerror("Error", "Invalid email address")
-            return'''
+        is_valid_email, email_error = Valuechecker.email_check(email)
+        if not is_valid_email:
+            messagebox.showerror("Error", email_error)
+            return
+   
 
         messagebox.showinfo("Success", "Login successful")
         self.controller.show_frame("BookingPage")

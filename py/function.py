@@ -1,3 +1,5 @@
+import tkinter as tk
+
 class Valuechecker:
 
 
@@ -29,5 +31,24 @@ class Valuechecker:
         if "@" not in value or "." not in value:
             return False, "Email address must contain '@' and '.'"
         return True, ""
+    
+
+class Errorlabel(tk.Label):
+    def __init__(self, master=None, text="", **kwargs):
+
+        default_config = {
+            "fg": "red",
+            "font": ("Arial", 10)
+        }
+        super().__init__(master, text=text, **{**default_config, **kwargs})
+
+    def show_error(self, message):
+        self.config(text=message)
+        self.pack(side="top")
+
+    def hide_error(self):
+        self.config(text="")
+        self.pack_forget()
+
 
 
