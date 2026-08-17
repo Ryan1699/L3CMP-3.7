@@ -14,8 +14,8 @@ class BookingPage(tk.Frame):
         self.return_bunk_count = tk.IntVar(value=0)
         self.return_receiling_count = tk.IntVar(value=0)
 
-        self.total_price = tk.DoubleVar(value=0.0)
-        self.gst_price = tk.DoubleVar(value=0.0)
+        self.total_price = tk.StringVar(value="$0.00")
+        self.gst_price = tk.StringVar(value="$0.00")
 
         self.create_widgets()
 
@@ -30,19 +30,19 @@ class BookingPage(tk.Frame):
         self.trip_type_label = tk.Label(self, text="Trip Type:", font=("Arial", 12))
         self.trip_type_label.grid(row=1, column=0, sticky="w", padx=12)
 
-        self.radio_one_way = tk.Radiobutton(self, text="One-way", value="one-way", variable=self.trip_type, font=("Arial", 11), command=self.update_seat_ui)
+        self.radio_one_way = tk.Radiobutton(self, text="One-way", value="one-way", variable=self.trip_type, font=("Arial", 11), command=self.update_ui)
         self.radio_one_way.grid(row=2, column=0, sticky="w", padx=18)
 
-        self.radio_return = tk.Radiobutton(self, text="Return", value="return", variable=self.trip_type, font=("Arial", 11), command=self.update_seat_ui)
+        self.radio_return = tk.Radiobutton(self, text="Return", value="return", variable=self.trip_type, font=("Arial", 11), command=self.update_ui)
         self.radio_return.grid(row=3, column=0, sticky="w", padx=18)
 
         self.route_label = tk.Label(self, text="Route:", font=("Arial", 12))
         self.route_label.grid(row=4, column=0, sticky="w", padx=12, pady=(8, 0))
 
-        self.route1 = tk.Radiobutton(self, text="Route 1", value="outbound", variable=self.route, font=("Arial", 11), command=self.update_seat_ui)
+        self.route1 = tk.Radiobutton(self, text="Route 1", value="outbound", variable=self.route, font=("Arial", 11), command=self.update_ui)
         self.route1.grid(row=5, column=0, sticky="w", padx=18)
 
-        self.route2 = tk.Radiobutton(self, text="Route 2", value="return", variable=self.route, font=("Arial", 11), command=self.update_seat_ui)
+        self.route2 = tk.Radiobutton(self, text="Route 2", value="return", variable=self.route, font=("Arial", 11), command=self.update_ui)
         self.route2.grid(row=6, column=0, sticky="w", padx=18)
 
         self.seat_type_label = tk.Label(self, text="Seat Type:", font=("Arial", 12))
@@ -82,39 +82,53 @@ class BookingPage(tk.Frame):
         self.return_receiling_spinbox = tk.Spinbox(self.return_section, from_=0, to=20, textvariable=self.return_receiling_count, font=("Arial", 11), command=self.update_total_price, width=8)
         self.return_receiling_spinbox.grid(row=1, column=1, sticky="ew", padx=(0, 8), pady=4)
 
-        self.total_price_label = tk.Label(self, text="Total Price:", font=("Arial", 12))
-        self.total_price_label.grid(row=10, column=0, sticky="w", padx=12)
-        self.price_label = tk.Label(self, textvariable=self.total_price, font=("Arial", 12))
-        self.price_label.grid(row=11, column=0, sticky="w", padx=12)
+        # Price section
+        self.price_section= tk.LabelFrame(self, bd=1, relief="solid", text="Price Details")
+        self.price_section.grid(row=10, column=0, sticky="ew", padx=12, pady=(4, 8))
+        self.price_section.grid_columnconfigure(0, weight=1)
+        self.price_section.grid_columnconfigure(1, weight=1)
 
-        self.gst_label = tk.Label(self, text="GST:", font=("Arial", 12))
-        self.gst_label.grid(row=12, column=0, sticky="w", padx=12)
-        self.gst_value_label = tk.Label(self, textvariable=self.gst_price, font=("Arial", 10))
-        self.gst_value_label.grid(row=13, column=0, sticky="w", padx=12)
+        # Subtotal row
+        self.subprice_label = tk.Label(self.price_section, text="Subtotal:", font=("Arial", 11))
+        self.subprice_label.grid(row=0, column=0, sticky="w", padx=12, pady=(6, 4))
+        self.subprice_value_label = tk.Label(self.price_section, font=("Arial", 11, "bold"))
+        self.subprice_value_label.grid(row=0, column=1, sticky="e", padx=12, pady=(6, 4))
+
+        # GST row
+        self.gst_label = tk.Label(self.price_section, text="GST (15%):", font=("Arial", 11))
+        self.gst_label.grid(row=1, column=0, sticky="w", padx=12, pady=4)
+        self.gst_value_label = tk.Label(self.price_section, textvariable=self.gst_price, font=("Arial", 11))
+        self.gst_value_label.grid(row=1, column=1, sticky="e", padx=12, pady=4)
+
+        # Total row
+        self.total_price_label = tk.Label(self.price_section, text="Total Price:", font=("Arial", 12, "bold"))
+        self.total_price_label.grid(row=3, column=0, sticky="w", padx=12, pady=20)
+        self.final_total_label = tk.Label(self.price_section, font=("Arial", 12, "bold"), fg="#2E7D32")
+        self.final_total_label.grid(row=3, column=1, sticky="e", padx=12, pady=20)
 
         self.button_book = tk.Button(self, text="Book", font=("Arial", 12), command=self.book_onclick)
         self.button_book.grid(row=14, column=0, sticky="ew", padx=12, pady=(10, 12))
 
 
 
-    def update_seat_ui(self):
+    def update_ui(self):
 
-            if self.trip_type.get() == "return":
-                self.return_section.grid()
+        if self.trip_type.get() == "return":
+            self.return_section.grid()
+            self.outbound_section.grid()
+        elif self.trip_type.get() == "one-way":
+            if self.route.get() == "outbound":
+                self.return_section.grid_remove()
                 self.outbound_section.grid()
-            elif self.trip_type.get() == "one-way":
-                if self.route.get() == "outbound":
-                    self.return_section.grid_remove()
-                    self.outbound_section.grid()
-                elif self.route.get() == "return":
-                    self.outbound_section.grid_remove()
-                    self.return_section.grid()
-                else:
-                    self.outbound_section.grid_remove()
-                    self.return_section.grid_remove()
+            elif self.route.get() == "return":
+                self.outbound_section.grid_remove()
+                self.return_section.grid()
+            else:
+                self.outbound_section.grid_remove()
+                self.return_section.grid_remove()
 
     def update_total_price(self):
-        total_price = 0.0
+        price_excluding_tax = 0.0
 
         if self.trip_type.get() == "return":
             total_price = (self.outbound_bunk_count.get() * 20 + self.outbound_receiling_count.get() * 15) + (self.return_bunk_count.get() * 20 + self.return_receiling_count.get() * 15)
@@ -126,8 +140,12 @@ class BookingPage(tk.Frame):
             else:
                 total_price = 0.0
 
-        self.total_price.set(total_price)
-        self.gst_price.set(total_price / 1.15)
+        # Format and display prices
+        self.total_price.set(f"${total_price:.2f}")
+        gst_amount = total_price - (total_price / 1.15)  # Calculate GST amount     
+        self.gst_price.set(f"${gst_amount:.2f}")
+        self.subprice_value_label.config(text=f"${(total_price - gst_amount):.2f}")
+        self.final_total_label.config(text=f"${total_price:.2f}")
 
     def book_onclick(self):
 
@@ -142,11 +160,15 @@ class BookingPage(tk.Frame):
         if self.outbound_bunk_count.get() == 0 and self.outbound_receiling_count.get() == 0 and self.return_bunk_count.get() == 0 and self.return_receiling_count.get() == 0:
             messagebox.showerror("Error", "Please select at least one seat")
             return
+
+        bunk_seats = self.outbound_bunk_count.get() + self.return_bunk_count.get()
+        receiling_seats = self.outbound_receiling_count.get() + self.return_receiling_count.get()
         confirm = messagebox.askyesno("Confirm Booking", 
-                                      f"Are you sure you want to book the following:\nTrip Type: {self.trip_type.get()}\nRoute: {self.route.get()}\nBunk Seats: {self.outbound_bunk_count.get()}\nReceiling Seats: {self.outbound_receiling_count.get()}\nTotal Price: ${self.total_price.get():.2f}")
+                                      f"Are you sure you want to book the following:\nTrip Type: {self.trip_type.get()}\nRoute: {self.route.get()}\nBunk Seats: {bunk_seats}\nReceiling Seats: {receiling_seats}\nTotal Price (inc. GST): {self.final_total_label.cget('text')}")
 
         if confirm:
-            messagebox.showinfo("Success", f"Booking successful!\nTrip Type: {self.trip_type.get()}\nRoute: {self.route.get()}\nBunk Seats: {self.outbound_bunk_count.get()}\nReceiling Seats: {self.outbound_receiling_count.get()}")
+            
+            messagebox.showinfo("Success", f"Booking successful!\nTrip Type: {self.trip_type.get()}\nRoute: {self.route.get()}\nBunk Seats: {bunk_seats}\nReceiling Seats: {receiling_seats}")
 
 
 if __name__ == "__main__":
