@@ -1,5 +1,7 @@
 import tkinter as tk
 
+
+BG_COLOR = "#022F69"
 class Valuechecker:
 
 
@@ -38,17 +40,18 @@ class Errorlabel(tk.Label):
 
         default_config = {
             "fg": "red",
-            "font": ("Arial", 10)
+            "font": ("Arial", 10),
+            "bg": BG_COLOR
         }
         super().__init__(master, text=text, **{**default_config, **kwargs})
 
     def show_error(self, message):
         self.config(text=message)
-        self.pack(side="top")
+        self.grid()
 
     def hide_error(self):
         self.config(text="")
-        self.pack_forget()
+        self.grid_forget()
 
 
 
