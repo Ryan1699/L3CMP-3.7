@@ -11,41 +11,48 @@ class LoginPage(tk.Frame):
         self.create_widgets()
 
     def create_widgets(self):
-        # title label   
-        self.lable = tk.Label(self, text="Online Ticket Booking System", font=("Arial", 16))
-        self.lable.pack(side="top")
-
-            #First Name label
-        self.label_firstname = tk.Label(self, text="First Name:", font=("Arial", 12))
-        self.label_firstname.pack(side="top")
-        self.input_firstname = tk.Entry(self, font=("Arial", 11))
-        self.input_firstname.pack(side="top")
-        self.error_firstname = Errorlabel(self)
-
-
-            #Last Name label
-        self.label_lastname = tk.Label(self, text="Last Name:", font=("Arial", 12))
-        self.label_lastname.pack(side="top")
-        self.input_lastname = tk.Entry(self, font=("Arial", 11))
-        self.input_lastname.pack(side="top")
-        self.error_lastname = Errorlabel(self)
-            #Phone Number label
-        self.label_number = tk.Label(self, text="Phone Number:", font=("Arial", 12))
-        self.label_number.pack(side="top")
-        self.input_number = tk.Entry(self, font=("Arial", 11))
-        self.input_number.pack(side="top")
-        self.error_number = Errorlabel(self)
+        self.grid_columnconfigure(0, weight=1)
+        self.grid_rowconfigure(0, pad=20)
         
-            #Email Address label
-        self.label_email = tk.Label(self, text="Email Address:", font=("Arial", 12))
-        self.label_email.pack(side="top")
-        self.input_email = tk.Entry(self, font=("Arial", 11))
-        self.input_email.pack(side="top")
-        self.error_email = Errorlabel(self)
+        # title label   
+        self.title_frame = tk.Label(self, text="Online Ticket Booking System", font=("Arial", 16))
+        self.title_frame.grid(row=0, column=0, sticky="ew", padx=12, pady=(12, 20))
 
-            #Login button
+        # First Name label
+        self.label_firstname = tk.Label(self, text="First Name:", font=("Arial", 12))
+        self.label_firstname.grid(row=1, column=0, sticky="w", padx=12, pady=(0, 4))
+        self.input_firstname = tk.Entry(self, font=("Arial", 11))
+        self.input_firstname.grid(row=2, column=0, sticky="ew", padx=12, pady=(0, 2))
+        self.error_firstname = Errorlabel(self)
+        self.error_firstname.grid(row=3, column=0, sticky="w", padx=12)
+
+        # Last Name label
+        self.label_lastname = tk.Label(self, text="Last Name:", font=("Arial", 12))
+        self.label_lastname.grid(row=4, column=0, sticky="w", padx=12, pady=(12, 4))
+        self.input_lastname = tk.Entry(self, font=("Arial", 11))
+        self.input_lastname.grid(row=5, column=0, sticky="ew", padx=12, pady=(0, 2))
+        self.error_lastname = Errorlabel(self)
+        self.error_lastname.grid(row=6, column=0, sticky="w", padx=12)
+        
+        # Phone Number label
+        self.label_number = tk.Label(self, text="Phone Number:", font=("Arial", 12))
+        self.label_number.grid(row=7, column=0, sticky="w", padx=12, pady=(12, 4))
+        self.input_number = tk.Entry(self, font=("Arial", 11))
+        self.input_number.grid(row=8, column=0, sticky="ew", padx=12, pady=(0, 2))
+        self.error_number = Errorlabel(self)
+        self.error_number.grid(row=9, column=0, sticky="w", padx=12)
+        
+        # Email Address label
+        self.label_email = tk.Label(self, text="Email Address:", font=("Arial", 12))
+        self.label_email.grid(row=10, column=0, sticky="w", padx=12, pady=(12, 4))
+        self.input_email = tk.Entry(self, font=("Arial", 11))
+        self.input_email.grid(row=11, column=0, sticky="ew", padx=12, pady=(0, 2))
+        self.error_email = Errorlabel(self)
+        self.error_email.grid(row=12, column=0, sticky="w", padx=12)
+
+        # Login button
         self.button_login = tk.Button(self, text="Log in", font=("Arial", 12), command=self.login_onclick)
-        self.button_login.pack(side="top")
+        self.button_login.grid(row=13, column=0, sticky="ew", padx=12, pady=(20, 12))
 
     def login_onclick(self):
         firstname = self.input_firstname.get()
@@ -86,9 +93,3 @@ class LoginPage(tk.Frame):
         self.controller.show_frame("BookingPage")
 
 
-if __name__ == "__main__":
-    root = tk.Tk()
-    root.title("test")
-    root.geometry("400x300")
-    app = LoginPage(parent=root)
-    app.mainloop()
